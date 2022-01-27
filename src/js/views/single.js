@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
-/* import { Context } from "../store/appContext";
- */ import { ItemDetail } from "../component/ItemDetail";
-import { Description } from "../component/description";
+import { useParams } from "react-router-dom";
+
+import { ItemDetails } from "../component/ItemDetails";
+import { Description } from "../component/Description";
 
 const apiUrl = "https://www.swapi.tech/api";
 
 export const Single = props => {
-	//	const { store, actions } = useContext(Context);
 	const params = useParams();
 	const [item, setItem] = useState(undefined);
 
@@ -24,7 +23,8 @@ export const Single = props => {
 					["Gender", body.result.properties.gender],
 					["Height", body.result.properties.height],
 					["Skin Color", body.result.properties.skin_color],
-					["Eye Color", body.result.properties.eye_color]
+					["Eye Color", body.result.properties.eye_color],
+					["Description", body.result.description]
 				);
 			} else if (endpoint === "vehicles") {
 				arrayItem.push(
@@ -33,7 +33,8 @@ export const Single = props => {
 					["Passengers", body.result.properties.passengers],
 					["Vehicle Class", body.result.properties.vehicle_class],
 					["Model", body.result.properties.model],
-					["Manufacturer", body.result.properties.manufacturer]
+					["Manufacturer", body.result.properties.manufacturer],
+					["Description", body.result.description]
 				);
 			} else {
 				arrayItem.push(
@@ -42,7 +43,8 @@ export const Single = props => {
 					["Terrain", body.result.properties.terrain],
 					["Gravity", body.result.properties.gravity],
 					["Diameter", body.result.properties.diameter],
-					["Population", body.result.properties.population]
+					["Population", body.result.properties.population],
+					["Description", body.result.description]
 				);
 			}
 
@@ -63,7 +65,7 @@ export const Single = props => {
 		<>
 			<div className="container">
 				{item ? (
-					<ItemDetail item={item} />
+					<ItemDetails item={item} />
 				) : (
 					<div className="d-flex py-3 justify-content-center">
 						<button className="btn btn-primary" type="button" disabled>

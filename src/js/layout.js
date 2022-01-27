@@ -5,9 +5,11 @@ import ScrollToTop from "./component/scrollToTop";
 import { Home } from "./views/home";
 import { Single } from "./views/single";
 
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
-import AppContextProvider from "./store/AppContext";
+import { Navbar } from "./component/Navbar";
+import { Footer } from "./component/Footer";
+import AppContextProvider from "./store/appContext";
+import { Signup } from "./views/Signup";
+import { Login } from "./views/Login";
 
 //create your first component
 const Layout = () => {
@@ -22,8 +24,18 @@ const Layout = () => {
 					<ScrollToTop>
 						<Navbar />
 						<Switch>
-							<Route exact path="/" component={Home} />
-							<Route exact path="/detail/:endpoint/:id" component={Single} />
+							<Route exact path="/">
+								<Home />
+							</Route>
+							<Route exact path="/detail/:endpoint/:id">
+								<Single />
+							</Route>
+							<Route exact path="/signup">
+								<Signup />
+							</Route>
+							<Route exact path="/login">
+								<Login />
+							</Route>
 							<Route>
 								<h1>Not found!</h1>
 							</Route>

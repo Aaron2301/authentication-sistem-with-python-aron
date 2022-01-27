@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import rigoImage from "../../img/rigo-baby.jpg";
 import { ItemCard } from "../component/ItemCard";
-import { AppContext } from "../store/AppContext";
+import { AppContext } from "../store/appContext";
 const apiUrl = "https://www.swapi.tech/api/";
 
 export const Home = () => {
@@ -16,7 +15,6 @@ export const Home = () => {
 	const getData = () => {
 		if (dbLocalPlanets === null && dbLocalPeople === null && dbLocalVehicles === null) {
 			const fetchData = async () => {
-				console.log("executing fetchData");
 				try {
 					let [dataPeople, dataVehicles, dataPlanets] = await Promise.all([
 						fetch(`${apiUrl}/people`),
@@ -38,9 +36,7 @@ export const Home = () => {
 						setPlanets(bodyPlanets.results);
 						dbLocalPlanets = localStorage.setItem("planets", JSON.stringify(bodyPlanets.results));
 					}
-				} catch (err) {
-					console.log("Home fetch" + err);
-				}
+				} catch (err) {}
 			};
 			fetchData();
 		} else {
@@ -54,6 +50,14 @@ export const Home = () => {
 		getData();
 	}, []);
 
+	useEffect(
+		() => {
+			if (store.token) {
+				actions.getFavorites(store.token);
+			}
+		},
+		[store.token]
+	);
 	return (
 		<div className="mt-5">
 			<div className="container">
@@ -66,11 +70,10 @@ export const Home = () => {
 					</div>
 				) : (
 					<>
-						<h1 className="text-danger">Characters</h1>
+						<h1 className="text-black">Characters</h1>
 						<div className="d-flex flex-row flex-nowrap overflow-auto">
 							{peoples.map((people, index) => {
-								console.log("Home", people.url);
-								return <ItemCard key={index} item={people} />;
+								return <ItemCard key={index} item={people} nature="people" />;
 							})}
 						</div>
 					</>
@@ -79,10 +82,10 @@ export const Home = () => {
 					""
 				) : (
 					<>
-						<h1 className="text-danger">Vehicles</h1>
+						<h1 className="text-black">Vehicles</h1>
 						<div className="d-flex flex-row flex-nowrap overflow-auto">
 							{vechicles.map((vechicle, index) => {
-								return <ItemCard key={index} item={vechicle} />;
+								return <ItemCard key={index} item={vechicle} nature="vehicles" />;
 							})}
 						</div>
 					</>
@@ -91,10 +94,10 @@ export const Home = () => {
 					""
 				) : (
 					<>
-						<h1 className="text-danger">Planets</h1>
+						<h1 className="text-black">Planets</h1>
 						<div className="d-flex flex-row flex-nowrap overflow-auto">
 							{planets.map((planet, index) => {
-								return <ItemCard key={index} item={planet} />;
+								return <ItemCard key={index} item={planet} nature="planets" />;
 							})}
 						</div>
 					</>
